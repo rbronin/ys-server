@@ -1,0 +1,34 @@
+{
+  "name": "ys-server",
+  "version": "0.5.8",
+  "private": true,
+  "author": {
+    "name": "Ravi Bharti",
+    "email": "ravics1718@gmail.com",
+    "url": "https://github.com/ravics1721"
+  },
+  "description": "yourspace(social App) server application",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "express-jwt": "^6.0.0",
+    "express-validator": "^6.6.1",
+    "formidable": "^1.2.2",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.10.6",
+    "morgan": "~1.9.1",
+    "passport-jwt": "^4.0.0",
+    "uuid": "^8.3.0"
+  }
+}
