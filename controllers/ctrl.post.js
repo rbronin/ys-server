@@ -85,7 +85,6 @@ const getAllPost = async (req, res) => {
 const getFeed = async (req, res) => {
   try {
     Post.find()
-      .select("-photo")
       .sort([[sortBy, "desc"]])
       .limit(10)
       .exec((err, posts) => {

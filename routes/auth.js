@@ -29,7 +29,9 @@ router.post(
   "/register",
   [
     check("name", "name should be at least 3 char").isLength({ min: 3 }),
-    check("username", "name should be at least 3 char").isLength({ min: 3 }),
+    check("username", "username should be at least 3 char").isLength({
+      min: 3,
+    }),
     check("email", "email is required").isEmail(),
     check("password", "password should be at least 3 char").isLength({
       min: 3,
