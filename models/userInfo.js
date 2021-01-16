@@ -11,11 +11,11 @@ const UserInfoSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
   },
-  follower: {
+  friends: {
     type: Array,
     default: [],
   },
-  following: {
+  collections: {
     type: Array,
     default: [],
   },

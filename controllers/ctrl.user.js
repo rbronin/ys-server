@@ -4,6 +4,7 @@
  */
 
 const User = require("../models/user");
+const UserInfo = require("../models/userInfo");
 
 //get a user
 const getUser = (req, res) => {
@@ -43,4 +44,36 @@ const searchUser = (req, res) => {
   });
 };
 
-module.exports = { getUser, getAllUser, updateInfo, updateUser, searchUser };
+const searchUserByName = (req, res) => {
+  User.find({ name: req.query.u_name })
+    .select("-password")
+    .exec((err, users) => {
+      if (err) return res.status(404).json({ error: err.message });
+      if (users.length === 0)
+        return res.status(200).json({ message: "no user found" });
+      res.json(users);
+    });
+};
+
+const addFriends = (req, res) => {
+  UserInfo.findById(req.query.userid, (err, userInfo) => {
+    if (err) return res.status(400).json({ error: err.message });
+    const { friends } = userInfo;
+    friends.push(req.body.fId);
+    userInfo.save((err, docs) => {
+      if (err) return res.status(400).json({ error: err.message });
+      docs.photo = undefined;
+      res.json(docs);
+    });
+  });
+};
+
+module.exports = {
+  getUser,
+  getAllUser,
+  updateInfo,
+  updateUser,
+  searchUser,
+  searchUserByName,
+  addFriends,
+};
