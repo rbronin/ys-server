@@ -2,7 +2,7 @@
 
 # Client Repo
 
-https://github.com/ravics1721/yourspace-web-client
+https://github.com/ravics1721/yourspace-web
 
 # Live
 
