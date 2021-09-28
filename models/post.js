@@ -17,6 +17,7 @@ const postSchema = new mongoose.Schema({
   details: {
     type: String,
   },
+  //Todo: remove this field
   photo: {
     data: Buffer,
     contentType: String,

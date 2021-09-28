@@ -23,17 +23,13 @@ const app = express();
 app.use(compression());
 app.use(cors());
 app.use(logger("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.use("/api", testRoutes);
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use("/api", profileRoutes);
-
-// app.listen(3000, () => {
-//   console.log("app is on: 3000");
-// });
 
 module.exports = app;

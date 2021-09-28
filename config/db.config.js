@@ -12,7 +12,6 @@ const db = {
   options: {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex: true,
   },
 };
 /**

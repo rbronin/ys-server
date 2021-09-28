@@ -1,5 +1,5 @@
 {
-  "name": "ys-server",
+  "name": "cs-server",
   "version": "0.5.8",
   "private": true,
   "author": {
@@ -7,13 +7,14 @@
     "email": "ravics1718@gmail.com",
     "url": "https://github.com/ravics1721"
   },
-  "description": "yourspace(social App) server application",
+  "description": "codespace(social App) server",
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "async": "^3.2.1",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
@@ -24,11 +25,16 @@
     "express-jwt": "^6.0.0",
     "express-validator": "^6.6.1",
     "formidable": "^1.2.2",
+    "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
-    "mongoose": "^5.10.6",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.0.6",
     "morgan": "~1.9.1",
+    "multer": "^1.4.3",
     "passport-jwt": "^4.0.0",
     "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.2"
   }
 }
