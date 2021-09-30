@@ -10,6 +10,7 @@ db.init();
 
 //middlewares
 middleware.init(app);
+
 //routes
 router.init(app);
 
