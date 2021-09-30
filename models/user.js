@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
  * @method pre-hook-method
  ** @description - hash user password
  */
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function () {
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
 });

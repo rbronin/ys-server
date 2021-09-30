@@ -1,4 +1,4 @@
-const UserProfile = require("../models/userInfo");
+const UserProfile = require("../models/profile");
 const formidable = require("formidable");
 const fs = require("fs");
 
@@ -13,8 +13,7 @@ const addProfile = (req, res) => {
   form.keepExtensions = true;
   const userid = req.userid;
   form.parse(req, (err, fields, file) => {
-    if (err)
-      return res.status(400).json({ error: `somthing wrong: ${err.message}` }); //handling error
+    if (err) return res.status(400).json({ error: `somthing wrong: ${err.message}` }); //handling error
     // if (!fields)
     //     return res.status(400).json({ message: "Include all fields" });
     let profile = new UserProfile();

@@ -5,14 +5,10 @@
         "browser": false
     },
     "parserOptions": {
-        "ecmaVersion": 2017
+        "ecmaVersion":2021
     },
     "rules": {
-        "indent": ["warn", 4],
-        "linebreak-style": [
-            "warn",
-            "windows"
-        ],
+        "indent": ["warn", 2],
         "quotes": [
             "warn",
             "double"
@@ -25,7 +21,6 @@
         "no-cond-assign": [
             "error",
             "always"
-        ],
-        "strict":"error"
+        ]
     }
 }

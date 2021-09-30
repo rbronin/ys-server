@@ -4,7 +4,7 @@
  */
 
 const User = require("../models/user");
-const UserInfo = require("../models/userInfo");
+const UserInfo = require("../models/profile");
 
 //get a user
 const getUser = (req, res) => {
@@ -49,8 +49,7 @@ const searchUserByName = (req, res) => {
     .select("-password")
     .exec((err, users) => {
       if (err) return res.status(404).json({ error: err.message });
-      if (users.length === 0)
-        return res.status(200).json({ message: "no user found" });
+      if (users.length === 0) return res.status(200).json({ message: "no user found" });
       res.json(users);
     });
 };
