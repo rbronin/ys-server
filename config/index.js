@@ -8,6 +8,17 @@ const dbConfig = {
   },
 };
 
+const GITHUB_CONFIG = {
+  ID: process.env.GITHUB_CLIENT_ID,
+  SECRET: process.env.GITHUB_CLIENT_SECRET,
+};
+
+const APP = {
+  SECRET: process.env.SECRET,
+};
+
 module.exports = {
   dbConfig,
+  GITHUB_CONFIG,
+  APP,
 };

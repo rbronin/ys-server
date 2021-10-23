@@ -1,76 +1,43 @@
-/**
- * @author Ravi Bharti
- ** @description - authentication routes
- */
-
 const express = require("express");
-const router = express.Router();
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const { check } = require("express-validator");
-const {
-  isUserExist,
-  isLogin,
-  isAuthenticated,
-  isVerified,
-} = require("../middlewares/mdl.auth");
-const {
-  registerController,
-  loginController,
-} = require("../controllers/ctrl.auth");
+const passport = require("passport");
+const { validateLoginReq, validateSignupReq } = require("../middlewares/auth.mdl");
+const authController = require("../controllers/auth.ctr");
+const authRouter = express.Router();
 
-/**
- * @method - Post
- * @param - /register & /login
- * @description  - User signup and login method
- **/
-
-router.post(
-  "/register",
-  [
-    check("name", "name should be at least 3 char").isLength({ min: 3 }),
-    check("username", "username should be at least 3 char").isLength({
-      min: 3,
-    }),
-    check("email", "email is required").isEmail(),
-    check("password", "password should be at least 3 char").isLength({
-      min: 3,
-    }),
-  ],
-  isUserExist,
-  registerController
+authRouter.get(
+  "/auth/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
 );
 
-router.post(
-  "/login",
-  [
-    check("email", "email is required").isEmail(),
-    check("password", "password field is required").isLength({ min: 4 }),
-  ],
-  loginController
+// eslint-disable-next-line no-unused-vars
+authRouter.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { failureRedirect: "/api/auth/error" }),
+  (req, res) => {
+    console.log({ user: req.user });
+    res.redirect("http://localhost:3000/feed");
+  },
 );
 
-router.get("/me", isLogin, isVerified, isAuthenticated, (req, res) => {
-  res.json({
-    user: req.user,
-    message: "you got it",
+authRouter.get("/auth/error", (req, res) => {
+  console.log({
+    err: "Error on login",
+  });
+  res.status(400).json({
+    message: "Error on login",
   });
 });
 
-router.post("/validate/token", async (req, res) => {
-  try {
-    // const token = req.header("x-auth-token");
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) return res.json(false);
-    const verified = jwt.verify(token, process.env.LOGIN_SECRET);
-    if (!verified) return res.json(false);
-
-    const user = await User.findById(verified._id);
-    if (!user) return res.json(false);
-    return res.json(true);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+authRouter.get("/auth/github/success", (req, res) => {
+  console.log({
+    user: req.user,
+  });
+  res.status(200).json({
+    user: req.user,
+  });
 });
 
-module.exports = router;
+authRouter.post("/signup", validateSignupReq, authController.addNewUser);
+authRouter.post("/signup", validateLoginReq);
+
+module.exports = authRouter;
