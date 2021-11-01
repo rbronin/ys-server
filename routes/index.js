@@ -1,6 +1,5 @@
 const express = require("express"); // eslint-disable-line no-unused-vars
-const postRoutes = require("./post");
-const authRoutes = require("./auth");
+const routerHandlers = require("./route");
 
 const router = {
   /**
@@ -8,19 +7,10 @@ const router = {
    * initialize routes
    */
   init: function (app) {
-    app.use("/api", postRoutes);
-    app.use("/api", authRoutes);
+    app.use("/api", routerHandlers);
     app.get("/", (req, res) => {
       res.json({
         message: "welcome to codespace app",
-      });
-    });
-    app.get("/rd", (req, res) => {
-      res.redirect("/res");
-    });
-    app.get("/res", (req, res) => {
-      res.json({
-        message: "you have been redirect from /rd route",
       });
     });
     app.get("/*", (req, res) => {

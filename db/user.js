@@ -8,6 +8,10 @@ const UserDB = {
   getUser: async (id) => {
     return await User.findById(id);
   },
+  getUserByEmail: async (email) => {
+    let result = await User.findOne({ email: email });
+    return result;
+  },
 };
 
 module.exports = UserDB;
