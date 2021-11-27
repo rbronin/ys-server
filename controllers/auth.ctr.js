@@ -12,12 +12,13 @@ const addNewUser = async (req, res) => {
       error: err.message,
     });
   });
-  if (result)
+  if (result) {
+    result.password = undefined;
     return res.status(200).json({
       message: "Signup Successfully",
       data: result,
     });
-  else
+  } else
     return res.status(400).json({
       error: "Some error occured",
     });
@@ -26,7 +27,6 @@ const addNewUser = async (req, res) => {
 const loginUser = async (req, res, next) => {
   let user = req.body;
   let foundUser = await UserDB.getUserByEmail(user.email);
-  console.log(foundUser);
   if (!foundUser) return res.status(404).json({ message: "No user found" });
   else {
     let result = await comparePassword(user.password, foundUser.password);
