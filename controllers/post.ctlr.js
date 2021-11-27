@@ -19,8 +19,8 @@ const createController = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-  // let id = "5ff19bfd9d9a541ce4d86923";
-  const result = await postDB.getPosts().catch((err) => {
+  const id = req.user._id;
+  const result = await postDB.getPosts(id).catch((err) => {
     res.status(404).json({
       message: err,
     });
@@ -35,7 +35,28 @@ const getPosts = async (req, res) => {
     });
 };
 
+const deletePost = async (req, res) => {
+  // let user = req.user;
+  let postid = req.param.postid;
+  if (!postid)
+    return res.status(400).json({
+      error: "postid is required",
+    });
+
+  const result = await postDB.deletePost(postid).catch((err) => {
+    res.status(404).json({
+      message: err,
+    });
+  });
+
+  return res.status(200).json({
+    message: "Post deleted successfully",
+    data: result,
+  });
+};
+
 module.exports = {
   createController,
   getPosts,
+  deletePost,
 };

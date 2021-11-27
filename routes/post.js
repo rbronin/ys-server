@@ -10,7 +10,9 @@ postRoute
   .route("/post/:postid")
   .get(pc.createController)
   .put(pc.createController)
-  .delete(pc.createController);
+  .delete(pc.deletePost);
+
+postRoute.use(isValidToken);
 
 //for testing only
 postRoute.get("/private", isValidToken, (req, res) => {
