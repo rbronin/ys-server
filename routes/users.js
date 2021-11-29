@@ -1,3 +1,15 @@
+const express = require("express");
+
+const userRoute = express.Router();
+
+userRoute.get("/", (rq, rs) => {
+  rs.json({
+    message: "user route",
+  });
+});
+
+module.exports = userRoute;
+
 // /**
 //  * @author Ravi Bharti
 //  ** @description - users routes
