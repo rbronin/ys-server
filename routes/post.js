@@ -4,15 +4,10 @@ const { isValidToken } = require("../controllers/auth.ctr");
 const postRoute = express.Router();
 
 //For Single post
+postRoute.use(isValidToken);
 postRoute.route("/").get(pc.getPosts).post(pc.createController);
 
-postRoute
-  .route("/post/:postid")
-  .get(pc.createController)
-  .put(pc.createController)
-  .delete(pc.deletePost);
-
-postRoute.use(isValidToken);
+postRoute.route("/:postid").get(pc.getPostById).delete(pc.deletePost);
 
 //for testing only
 postRoute.get("/private", isValidToken, (req, res) => {

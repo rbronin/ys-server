@@ -11,7 +11,7 @@ const getPost = async function (id) {
   return await Post.findById(id);
 };
 const getPosts = async function (id) {
-  return await Post.find({ _id: id });
+  return await Post.find({ userid: id });
 };
 const addLikes = async function (postid) {
   return await PostMeta.findByIdAndUpdate(

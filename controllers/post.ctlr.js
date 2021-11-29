@@ -2,6 +2,7 @@ const postDB = require("../db/post");
 
 const createController = async (req, res) => {
   let post = req.body;
+  post.userid = req.user._id;
   const result = await postDB.createPost(post).catch((err) => {
     res.status(404).json({
       message: err.message,
@@ -9,8 +10,8 @@ const createController = async (req, res) => {
   });
   if (result)
     return res.status(200).json({
-      message: "created",
-      data: result,
+      message: "Post created successfully",
+      data: { id: result._id },
     });
   else
     return res.json({
@@ -35,9 +36,26 @@ const getPosts = async (req, res) => {
     });
 };
 
+const getPostById = async (req, res) => {
+  const { postid } = req.params;
+  console.log({ postid });
+  const result = await postDB.getPost(postid).catch((err) => {
+    res.status(404).json({
+      message: err.message,
+    });
+  });
+  if (result)
+    return res.status(200).json({
+      data: result,
+    });
+  else
+    return res.status(404).json({
+      message: "No post found",
+    });
+};
+
 const deletePost = async (req, res) => {
-  // let user = req.user;
-  let postid = req.param.postid;
+  let postid = req.params.postid;
   if (!postid)
     return res.status(400).json({
       error: "postid is required",
@@ -51,7 +69,7 @@ const deletePost = async (req, res) => {
 
   return res.status(200).json({
     message: "Post deleted successfully",
-    data: result,
+    data: { id: result._id },
   });
 };
 
@@ -59,4 +77,5 @@ module.exports = {
   createController,
   getPosts,
   deletePost,
+  getPostById,
 };
