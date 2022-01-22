@@ -1,5 +1,4 @@
 const Post = require("../models/post");
-const PostMeta = require("../models/post-meta");
 
 const createPost = async function (data) {
   return await Post.create(data);
@@ -10,15 +9,28 @@ const deletePost = async function (id) {
 const getPost = async function (id) {
   return await Post.findById(id);
 };
-const getPosts = async function (id) {
-  return await Post.find({ userid: id });
+const getPosts = async (id) => {
+  return await Post.find({ userid: id })
+    .populate("userid", ["name", "_id"])
+    .select("-photo")
+    .sort({ createdAt: "desc" })
+    .exec();
 };
-const addLikes = async function (postid) {
-  return await PostMeta.findByIdAndUpdate(
+const getFeeds = async (page = 0, limit = 10) => {
+  return await Post.find()
+    .populate("userid", ["name", "_id"])
+    .select("-photo")
+    .sort({ createdAt: "desc" })
+    .skip(page)
+    .limit(limit)
+    .exec();
+};
+const addLikes = async function (postid, userid) {
+  return await Post.findByIdAndUpdate(
     postid,
     {
       $push: {
-        likes: postid,
+        likes: userid,
       },
     },
     {
@@ -27,16 +39,16 @@ const addLikes = async function (postid) {
     },
   );
 };
-const removeLikes = async function (postid) {
-  return await PostMeta.findByIdAndUpdate(postid, {
+const removeLikes = async function (postid, userid) {
+  return await Post.findByIdAndUpdate(postid, {
     $pop: {
-      likes: postid,
+      likes: userid,
     },
   });
 };
 
 const addComments = async function (comment) {
-  return await PostMeta.findByIdAndUpdate(
+  return await Post.findByIdAndUpdate(
     comment.id,
     {
       $push: {
@@ -50,10 +62,6 @@ const addComments = async function (comment) {
   );
 };
 
-const getLikesAndComments = async function (id) {
-  return await PostMeta.find({ _id: id });
-};
-
 module.exports = {
   createPost,
   deletePost,
@@ -62,5 +70,5 @@ module.exports = {
   addComments,
   getPost,
   getPosts,
-  getLikesAndComments,
+  getFeeds,
 };

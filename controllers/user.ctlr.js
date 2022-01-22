@@ -2,8 +2,8 @@ const userDB = require("../db/user");
 const profileDB = require("../db/profile");
 
 const getUserById = async (req, res) => {
-  const { userid } = req.params;
-  const result = await userDB.getUser(userid).catch((err) => {
+  const id = req.user._id;
+  const result = await userDB.getUser(id).catch((err) => {
     res.status(400).json({
       message: err.message,
     });
@@ -21,7 +21,7 @@ const getUserById = async (req, res) => {
 
 const getProfile = async (req, res) => {
   const { _id } = req.user;
-  const result = await userDB.getUser(_id).catch((err) => {
+  const result = await userDB.getUserProfile(_id).catch((err) => {
     res.status(400).json({
       message: err.message,
     });
@@ -48,6 +48,7 @@ const createProfile = async (req, res) => {
 
   if (result) {
     return res.status(200).json({
+      message: "Added successfully",
       data: result,
     });
   }
@@ -93,10 +94,29 @@ const removeFollower = async (req, res) => {
   });
 };
 
+const userRecommendation = async (req, res) => {
+  const { _id } = req.user;
+  const result = await userDB.getUsers(_id, 5).catch((err) => {
+    res.status(400).json({
+      message: err.message,
+    });
+  });
+
+  if (result) {
+    return res.status(200).json({
+      data: result,
+    });
+  }
+  return res.status(400).json({
+    message: "Unable to find recommendation",
+  });
+};
+
 module.exports = {
   getUserById,
   getProfile,
   createProfile,
   addFollower,
   removeFollower,
+  userRecommendation,
 };
