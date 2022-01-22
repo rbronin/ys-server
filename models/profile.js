@@ -3,20 +3,19 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.SchemaTypes;
 
 const ProfileSchema = new mongoose.Schema({
-  userid: {
-    type: ObjectId,
+  user: {
+    type: mongoose.SchemaTypes.ObjectId,
     ref: "User",
+    required: true,
   },
   picture: {
     data: Buffer,
     contentType: String,
   },
-  friends: [
-    {
-      userid: ObjectId,
-      ref: "User",
-    },
-  ],
+  friends: {
+    type: [ObjectId],
+    ref: "User",
+  },
   collections: [ObjectId],
 });
 

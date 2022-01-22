@@ -14,6 +14,14 @@ const postSchema = new mongoose.Schema(
       data: Buffer,
       contentType: String,
     },
+    likes: [mongoose.SchemaTypes.ObjectId],
+    comments: [
+      {
+        id: mongoose.SchemaTypes.ObjectId,
+        body: String,
+        date: Date,
+      },
+    ],
   },
   { timestamps: true },
 );

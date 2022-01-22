@@ -84,7 +84,7 @@ const isValidToken = (req, res, next) => {
   const header = req.headers.authorization;
   if (!header) return res.status(400).json({ error: "Auth token is required" });
   const token = header.split(" ")[1];
-  if (!token) return res.status(400).json({ error: "Invalid token" });
+  if (!token) return res.status(400).json({ error: "Not Authenticated!" });
   Jwt.verify(token, APP.SECRET, { algorithms: "HS512" }, (err, decoded) => {
     if (err)
       return res.status(400).json({

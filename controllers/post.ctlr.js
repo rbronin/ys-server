@@ -21,12 +21,8 @@ const createController = async (req, res) => {
 
 const getPosts = async (req, res) => {
   const id = req.user._id;
-  const result = await postDB.getPosts(id).catch((err) => {
-    res.status(404).json({
-      message: err,
-    });
-  });
-  if (result.length > 0)
+  const result = await postDB.getPosts(id);
+  if (result)
     return res.status(200).json({
       data: result,
     });
@@ -73,9 +69,55 @@ const deletePost = async (req, res) => {
   });
 };
 
+const getPublicFeed = async (req, res) => {
+  const result = await postDB.getFeeds();
+  if (result)
+    return res.status(200).json({
+      data: result,
+    });
+  else
+    return res.status(404).json({
+      message: "No post found",
+    });
+};
+
+const getUserFeed = async (req, res) => {
+  const id = req.user._id;
+  const result = await postDB.getPosts(id);
+  if (result)
+    return res.status(200).json({
+      data: result,
+    });
+  else
+    return res.status(404).json({
+      message: "No post found",
+    });
+};
+
+const addLike = async (req, res) => {
+  const userid = req.user._id;
+  const postid = req.param.postid;
+  const result = await postDB.addLikes(postid, userid).catch((err) => {
+    res.status(404).json({
+      message: err,
+    });
+  });
+  if (result)
+    return res.status(200).json({
+      data: result,
+    });
+  else
+    return res.status(404).json({
+      message: "No post found",
+    });
+};
+
 module.exports = {
   createController,
   getPosts,
   deletePost,
   getPostById,
+  getPublicFeed,
+  getUserFeed,
+  addLike,
 };
