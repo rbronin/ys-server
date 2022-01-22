@@ -1,74 +1,21 @@
-/**
- * @author Ravi Bharti
- ** @description - post routers
- */
-
 const express = require("express");
-const {
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  getUserById,
-} = require("../middlewares/mdl.auth");
-const {
-  createPostController,
-  getAPost,
-  getAllPost,
-  getPhoto,
-  getFeed,
-  getLoggedUserPost,
-  deletePost,
-  isLiked,
-  addLikes,
-  addComments,
-} = require("../controllers/ctrl.post");
-const { getPostById } = require("../middlewares/mdl.post");
-const postRouter = express.Router();
+const pc = require("../controllers/post.ctlr");
+const { isValidToken } = require("../controllers/auth.ctr");
+const postRoute = express.Router();
 
-//create post routes
-postRouter.post(
-  "/create/post",
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  createPostController
-);
+//For Single post
+postRoute.use(isValidToken);
+postRoute.route("/").get(pc.getPosts).post(pc.createController);
 
-postRouter.param("postId", getPostById);
-postRouter.param("userId", getUserById);
+postRoute.route("/:postid").get(pc.getPostById).delete(pc.deletePost);
+postRoute.post("/like/:postid", pc.addLike);
 
-postRouter.get("/post/all", isLogin, isVerified, isAuthenticated, getAllPost);
-postRouter.get("/post/one", isLogin, isVerified, isAuthenticated, getAPost);
-postRouter.get("/post/photo", getPhoto);
-postRouter.get(
-  "/user/posts",
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  getLoggedUserPost
-);
+//for testing only
+postRoute.get("/private", isValidToken, (req, res) => {
+  res.status(200).json({
+    message: "Private route",
+    user: req.user,
+  });
+});
 
-postRouter.get("/feed", isLogin, isVerified, isAuthenticated, getFeed);
-postRouter.delete(
-  "/post/delete/one",
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  deletePost
-);
-postRouter.post(
-  "/post/like",
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  isLiked,
-  addLikes
-);
-postRouter.post(
-  "/post/comment",
-  isLogin,
-  isVerified,
-  isAuthenticated,
-  addComments
-);
-module.exports = postRouter;
+module.exports = postRoute;

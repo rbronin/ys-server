@@ -1,5 +1,5 @@
 {
-  "name": "ys-server",
+  "name": "cs-server",
   "version": "0.5.8",
   "private": true,
   "author": {
@@ -7,28 +7,50 @@
     "email": "ravics1718@gmail.com",
     "url": "https://github.com/ravics1721"
   },
-  "description": "yourspace(social App) server application",
+  "description": "codespace(social App) server",
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "test": "mocha",
+    "test:watch": "mocha",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
+    "async": "^3.2.1",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
+    "connect-mongo": "^4.6.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "express-jwt": "^6.0.0",
+    "express-session": "^1.17.2",
     "express-validator": "^6.6.1",
     "formidable": "^1.2.2",
+    "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.20",
-    "mongoose": "^5.10.6",
-    "morgan": "~1.9.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.0.6",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.3",
+    "passport": "^0.5.0",
+    "passport-github2": "^0.1.12",
     "passport-jwt": "^4.0.0",
+    "socket.io": "^4.2.0",
     "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.1.2",
+    "mocha": "^9.1.2",
+    "prettier": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }

@@ -1,76 +1,28 @@
-/**
- * @author Ravi Bharti
- ** @description - authentication routes
- */
-
 const express = require("express");
-const router = express.Router();
-const User = require("../models/user");
-const jwt = require("jsonwebtoken");
-const { check } = require("express-validator");
 const {
-  isUserExist,
-  isLogin,
-  isAuthenticated,
-  isVerified,
-} = require("../middlewares/mdl.auth");
-const {
-  registerController,
-  loginController,
-} = require("../controllers/ctrl.auth");
+  validateLoginReq,
+  validateSignupReq,
+  isUserExists,
+} = require("../middlewares/auth.mdl");
+const authController = require("../controllers/auth.ctr");
 
-/**
- * @method - Post
- * @param - /register & /login
- * @description  - User signup and login method
- **/
+const authRouter = express.Router();
 
-router.post(
-  "/register",
-  [
-    check("name", "name should be at least 3 char").isLength({ min: 3 }),
-    check("username", "username should be at least 3 char").isLength({
-      min: 3,
-    }),
-    check("email", "email is required").isEmail(),
-    check("password", "password should be at least 3 char").isLength({
-      min: 3,
-    }),
-  ],
-  isUserExist,
-  registerController
-);
-
-router.post(
-  "/login",
-  [
-    check("email", "email is required").isEmail(),
-    check("password", "password field is required").isLength({ min: 4 }),
-  ],
-  loginController
-);
-
-router.get("/me", isLogin, isVerified, isAuthenticated, (req, res) => {
+authRouter.get("/", (req, res) => {
   res.json({
-    user: req.user,
-    message: "you got it",
+    message: "Auth route",
   });
 });
 
-router.post("/validate/token", async (req, res) => {
-  try {
-    // const token = req.header("x-auth-token");
-    const token = req.headers.authorization.split(" ")[1];
-    if (!token) return res.json(false);
-    const verified = jwt.verify(token, process.env.LOGIN_SECRET);
-    if (!verified) return res.json(false);
+//working
+authRouter.post("/signup", validateSignupReq, isUserExists, authController.addNewUser);
+authRouter.post(
+  "/signin",
+  validateLoginReq,
+  authController.loginUser,
+  authController.generateLoginCredential,
+); //Working
 
-    const user = await User.findById(verified._id);
-    if (!user) return res.json(false);
-    return res.json(true);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+authRouter.get("/verify", authController.varifyToken); //Tested
 
-module.exports = router;
+module.exports = authRouter;

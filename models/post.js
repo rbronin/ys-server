@@ -1,38 +1,31 @@
-/**
- * @author Ravi Bharti
- * * @description post-schema
- */
-
 const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema({
-  userid: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: "User",
-    required: true,
+const postSchema = new mongoose.Schema(
+  {
+    userid: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    content: {
+      type: String,
+    },
+    picture: {
+      data: Buffer,
+      contentType: String,
+    },
+    likes: [mongoose.SchemaTypes.ObjectId],
+    comments: [
+      {
+        id: mongoose.SchemaTypes.ObjectId,
+        body: String,
+        date: Date,
+      },
+    ],
   },
-  title: {
-    type: String,
-  },
-  details: {
-    type: String,
-  },
-  photo: {
-    data: Buffer,
-    contentType: String,
-  },
-  likes: {
-    type: Array,
-    default: [],
-  },
-  comments: {
-    type: Array,
-    default: [],
-  },
-  time: {
-    type: Date,
-    default: Date.now(),
-  },
-});
+  { timestamps: true },
+);
 
-module.exports = mongoose.model("Posts", postSchema);
+const Post = mongoose.model("Post", postSchema);
+
+module.exports = Post;
