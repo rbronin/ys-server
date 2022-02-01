@@ -96,7 +96,8 @@ const getUserFeed = async (req, res) => {
 
 const addLike = async (req, res) => {
   const userid = req.user._id;
-  const postid = req.param.postid;
+  const postid = req.params.postid;
+  console.log({ postid });
   const result = await postDB.addLikes(postid, userid).catch((err) => {
     res.status(404).json({
       message: err,
