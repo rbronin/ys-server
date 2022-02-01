@@ -29,9 +29,28 @@ const createProfile = async (id, data) => {
     },
   });
 };
+const addInToCollections = async function (userid, itemID) {
+  return await Profile.findOneAndUpdate(
+    { user: userid },
+    {
+      $push: {
+        collections: itemID,
+      },
+    },
+    {
+      upsert: true,
+      new: true,
+    },
+  );
+};
+const getCollections = async function (userid) {
+  return await Profile.findOne({ user: userid }).select("-picture").exec();
+};
 
 module.exports = {
   addFollower,
   removeFollower,
   createProfile,
+  addInToCollections,
+  getCollections,
 };

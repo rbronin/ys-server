@@ -112,6 +112,44 @@ const userRecommendation = async (req, res) => {
   });
 };
 
+const addToCollections = async (req, res) => {
+  const { _id } = req.user;
+  const itemid = req.params.itemid;
+  const result = await profileDB.addInToCollections(_id, itemid).catch((err) => {
+    res.status(400).json({
+      message: err.message,
+    });
+  });
+
+  if (result) {
+    return res.status(200).json({
+      message: "Added Succesfully",
+      result: result.collections,
+    });
+  }
+  return res.status(400).json({
+    message: "Unable to add in collection",
+  });
+};
+
+const fetchCollections = async (req, res) => {
+  const { _id } = req.user;
+  const result = await profileDB.getCollections(_id).catch((err) => {
+    res.status(400).json({
+      message: err.message,
+    });
+  });
+
+  if (result) {
+    return res.status(200).json({
+      result: result,
+    });
+  }
+  return res.status(400).json({
+    message: "Unable to find in collection",
+  });
+};
+
 module.exports = {
   getUserById,
   getProfile,
@@ -119,4 +157,6 @@ module.exports = {
   addFollower,
   removeFollower,
   userRecommendation,
+  addToCollections,
+  fetchCollections,
 };
