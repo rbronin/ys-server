@@ -43,8 +43,24 @@ const addInToCollections = async function (userid, itemID) {
     },
   );
 };
+
 const getCollections = async function (userid) {
-  return await Profile.findOne({ user: userid }).select("-picture").exec();
+  return await Profile.findOne({ user: userid })
+    .populate({
+      path: "collections",
+      populate: { path: "userid", select: "-password" },
+    })
+    .select("-picture")
+    .exec();
+};
+
+const getFriends = async function (userid) {
+  return await Profile.findOne({ user: userid })
+    .populate({
+      path: "friends",
+      select: "-password",
+    })
+    .exec();
 };
 
 module.exports = {
@@ -53,4 +69,5 @@ module.exports = {
   createProfile,
   addInToCollections,
   getCollections,
+  getFriends,
 };

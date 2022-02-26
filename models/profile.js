@@ -16,7 +16,10 @@ const ProfileSchema = new mongoose.Schema({
     type: [ObjectId],
     ref: "User",
   },
-  collections: [ObjectId],
+  collections: {
+    type: [ObjectId],
+    ref: "Post",
+  },
 });
 
 const Profile = mongoose.model("Profile", ProfileSchema);

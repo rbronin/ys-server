@@ -6,6 +6,7 @@ const {
   addFollower,
   addToCollections,
   fetchCollections,
+  fetchFriends,
 } = require("../controllers/user.ctlr");
 const { isValidToken } = require("../controllers/auth.ctr");
 const userRoute = express.Router();
@@ -18,5 +19,6 @@ userRoute.get("/profile", getProfile);
 userRoute.post("/follow", addFollower);
 userRoute.post("/collections/:itemid", addToCollections);
 userRoute.get("/collections", fetchCollections);
+userRoute.get("/friends", fetchFriends);
 
 module.exports = userRoute;

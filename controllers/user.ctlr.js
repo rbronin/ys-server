@@ -142,7 +142,25 @@ const fetchCollections = async (req, res) => {
 
   if (result) {
     return res.status(200).json({
-      result: result,
+      result: result.collections || [],
+    });
+  }
+  return res.status(400).json({
+    message: "Unable to find in collection",
+  });
+};
+
+const fetchFriends = async function (req, res) {
+  const { _id } = req.user;
+  const result = await profileDB.getFriends(_id).catch((err) => {
+    res.status(400).json({
+      message: err.message,
+    });
+  });
+
+  if (result) {
+    return res.status(200).json({
+      result: result.friends,
     });
   }
   return res.status(400).json({
@@ -159,4 +177,5 @@ module.exports = {
   userRecommendation,
   addToCollections,
   fetchCollections,
+  fetchFriends,
 };
