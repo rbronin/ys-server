@@ -20,6 +20,15 @@ const UserDB = {
   getUserProfile: async (id) => {
     return await User.findById(id).select("-password").exec();
   },
+  searchUser: async function (searchStr) {
+    // return await User.find({
+    //   $text: {
+    //     $search: searchStr,
+    //     $caseSensitive: false,
+    //   },
+    // }).exec();
+    return await User.where("name").in([searchStr]).select("-password");
+  },
 };
 
 module.exports = UserDB;

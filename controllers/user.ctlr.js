@@ -164,6 +164,24 @@ const fetchFriends = async function (req, res) {
     });
   }
   return res.status(400).json({
+    message: "Unable to find in friends",
+  });
+};
+const searchUser = async function (req, res) {
+  const { s = "" } = req.query;
+  console.log({ searchTSR: s });
+  const result = await userDB.searchUser(s.toString()).catch((err) => {
+    res.status(400).json({
+      message: err.message,
+    });
+  });
+
+  if (result) {
+    return res.status(200).json({
+      result: result,
+    });
+  }
+  return res.status(400).json({
     message: "Unable to find in collection",
   });
 };
@@ -178,4 +196,5 @@ module.exports = {
   addToCollections,
   fetchCollections,
   fetchFriends,
+  searchUser,
 };
