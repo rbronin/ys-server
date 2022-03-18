@@ -59,8 +59,8 @@ const createProfile = async (req, res) => {
 
 const addFollower = async (req, res) => {
   const { _id } = req.user;
-  const data = req.body;
-  const result = await profileDB.addFollower(_id, data).catch((err) => {
+  const { userid } = req.params;
+  const result = await profileDB.addFollower(_id, userid).catch((err) => {
     res.status(400).json({
       message: err.message,
     });
@@ -77,8 +77,8 @@ const addFollower = async (req, res) => {
 };
 const removeFollower = async (req, res) => {
   const { _id } = req.user;
-  const data = req.body;
-  const result = await profileDB.removeFollower(_id, data).catch((err) => {
+  const { userid } = req.params;
+  const result = await profileDB.removeFollower(_id, userid).catch((err) => {
     res.status(400).json({
       message: err.message,
     });

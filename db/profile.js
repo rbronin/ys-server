@@ -12,14 +12,14 @@ const addFollower = async (id, data) => {
       new: true,
       upsert: true,
     },
-  );
+  ).exec();
 };
 const removeFollower = async (id, data) => {
   return await Profile.findByIdAndUpdate(id, {
     $pop: {
       friends: data,
     },
-  });
+  }).exec();
 };
 
 const createProfile = async (id, data) => {

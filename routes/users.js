@@ -17,7 +17,7 @@ userRoute.get("/", getUserById);
 userRoute.get("/recommend", userRecommendation);
 
 userRoute.get("/profile", getProfile);
-userRoute.post("/follow", addFollower);
+userRoute.post("/follow/:userid", addFollower);
 userRoute.post("/collections/:itemid", addToCollections);
 userRoute.get("/collections", fetchCollections);
 userRoute.get("/friends", fetchFriends);

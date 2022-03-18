@@ -112,6 +112,26 @@ const addLike = async (req, res) => {
       message: "No post found",
     });
 };
+const addComment = async (req, res) => {
+  const userid = req.user._id;
+  const postid = req.params.postid;
+  const { data } = req.body;
+  let comment = {
+    id: userid,
+    body: data,
+    date: new Date(),
+  };
+  const result = await postDB.addComments(postid, comment).catch((err) => {
+    res.status(404).json({
+      message: err,
+    });
+  });
+  if (result) return res.status(200).json(result);
+  else
+    return res.status(404).json({
+      message: "Some eror occured",
+    });
+};
 
 module.exports = {
   createController,
@@ -121,4 +141,5 @@ module.exports = {
   getPublicFeed,
   getUserFeed,
   addLike,
+  addComment,
 };

@@ -47,19 +47,19 @@ const removeLikes = async function (postid, userid) {
   });
 };
 
-const addComments = async function (comment) {
+const addComments = async function (id, comment) {
   return await Post.findByIdAndUpdate(
-    comment.id,
+    id,
     {
       $push: {
-        ...comment,
+        comments: comment,
       },
     },
     {
       new: true,
       upsert: true,
     },
-  );
+  ).exec();
 };
 
 module.exports = {

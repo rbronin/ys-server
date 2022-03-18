@@ -9,6 +9,7 @@ postRoute.route("/").get(pc.getPosts).post(pc.createController);
 
 postRoute.route("/:postid").get(pc.getPostById).delete(pc.deletePost);
 postRoute.post("/like/:postid", pc.addLike);
+postRoute.post("/comment/:postid", pc.addComment);
 
 //for testing only
 postRoute.get("/private", isValidToken, (req, res) => {
