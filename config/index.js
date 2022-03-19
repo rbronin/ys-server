@@ -1,5 +1,5 @@
 const dbConfig = {
-  URI: process.env.MONGODB_URL_DEVELOPEMENT || process.env.MONGODB_URL_PRODUCTION,
+  URI: process.env.MONGODB_URL,
   user: process.env.USER,
   password: process.env.PASSWORD,
   options: {
