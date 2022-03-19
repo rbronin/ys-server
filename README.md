@@ -1,4 +1,4 @@
-## yourspace server -> now mystack
+## yourspace server
 
 # Client Repo
 
@@ -6,4 +6,4 @@ https://github.com/ravics1721/yourspace-web
 
 # Live
 
-https://yourspace.netlify.app/
+https://yourspace.vercel.app/

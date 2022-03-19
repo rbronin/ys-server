@@ -1,5 +1,5 @@
 {
-  "name": "cs-server",
+  "name": "ys-server",
   "version": "0.5.8",
   "private": true,
   "author": {
@@ -7,7 +7,7 @@
     "email": "ravics1718@gmail.com",
     "url": "https://github.com/ravics1721"
   },
-  "description": "codespace(social App) server",
+  "description": "yourspace(social App) server",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon ./bin/www",
