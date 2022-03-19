@@ -14,4 +14,8 @@ middleware.init(app);
 //routes
 router.init(app);
 
-module.exports = app;
+let port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+  console.log(`server up on port: ${port}`);
+});
