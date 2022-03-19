@@ -12,6 +12,7 @@ const getPost = async function (id) {
 const getPosts = async (id) => {
   return await Post.find({ userid: id })
     .populate("userid", ["name", "_id"])
+    .populate("comments.id", ["name", "_id"])
     .select("-photo")
     .sort({ createdAt: "desc" })
     .exec();
@@ -19,6 +20,7 @@ const getPosts = async (id) => {
 const getFeeds = async (page = 0, limit = 10) => {
   return await Post.find()
     .populate("userid", ["name", "_id"])
+    .populate("comments.id", ["name", "_id"])
     .select("-photo")
     .sort({ createdAt: "desc" })
     .skip(page)
@@ -59,7 +61,9 @@ const addComments = async function (id, comment) {
       new: true,
       upsert: true,
     },
-  ).exec();
+  )
+    .populate("comments.id", ["name", "_id"])
+    .exec();
 };
 
 module.exports = {
