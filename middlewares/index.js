@@ -24,7 +24,7 @@ const middleware = {
     app.use(compression());
     app.use(
       cors({
-        origin: "*",
+        origin: process.env.APP_URL,
       }),
     );
     app.use(logger("dev"));
