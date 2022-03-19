@@ -1,8 +1,8 @@
 const Profile = require("../models/profile");
 
 const addFollower = async (id, data) => {
-  return await Profile.findByIdAndUpdate(
-    id,
+  return await Profile.findOneAndUpdate(
+    { user: id },
     {
       $push: {
         friends: data,
@@ -15,11 +15,17 @@ const addFollower = async (id, data) => {
   ).exec();
 };
 const removeFollower = async (id, data) => {
-  return await Profile.findByIdAndUpdate(id, {
-    $pop: {
-      friends: data,
+  return await Profile.findOneAndUpdate(
+    { user: id },
+    {
+      $pull: {
+        friends: data,
+      },
     },
-  }).exec();
+    {
+      new: true,
+    },
+  ).exec();
 };
 
 const createProfile = async (id, data) => {

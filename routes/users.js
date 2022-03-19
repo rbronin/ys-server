@@ -8,6 +8,7 @@ const {
   fetchCollections,
   fetchFriends,
   searchUser,
+  removeFollower,
 } = require("../controllers/user.ctlr");
 const { isValidToken } = require("../controllers/auth.ctr");
 const userRoute = express.Router();
@@ -18,6 +19,7 @@ userRoute.get("/recommend", userRecommendation);
 
 userRoute.get("/profile", getProfile);
 userRoute.post("/follow/:userid", addFollower);
+userRoute.delete("/follow/:userid", removeFollower);
 userRoute.post("/collections/:itemid", addToCollections);
 userRoute.get("/collections", fetchCollections);
 userRoute.get("/friends", fetchFriends);

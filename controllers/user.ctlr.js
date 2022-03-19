@@ -85,9 +85,7 @@ const removeFollower = async (req, res) => {
   });
 
   if (result) {
-    return res.status(200).json({
-      data: result,
-    });
+    return res.status(200).json(result);
   }
   return res.status(400).json({
     message: "Unable to remove follower",
